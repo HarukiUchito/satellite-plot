@@ -1,6 +1,8 @@
 #ifndef OCAM_MODEL_HPP
 #define OCAM_MODEL_HPP
 
+#include <tuple>
+
 #define CMV_MAX_BUF 1024
 #define MAX_POL_LENGTH 64
 
@@ -25,5 +27,7 @@ void cam2world(double point3D[3], double point2D[2], struct ocam_model *myocam_m
 void world2cam(double point2D[2], double point3D[3], struct ocam_model *myocam_model);
 
 double calc_lens_radius();
+
+std::pair<double, double> calc_center();
 
 #endif

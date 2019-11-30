@@ -157,10 +157,18 @@ double calc_lens_radius()
     world2cam(left, point3D, &om);
     point3D[0] = 1;
     world2cam(right, point3D, &om);
-    point3D[0] = 0;
-    point3D[2] = 1.0;
-    world2cam(center, point3D, &om);
-    std::cout << center[1] << " " << center[0] << std::endl;
     int radius = abs(round(left[0]) - round(right[0])) / 2;
     return radius;
+}
+
+std::pair<double, double> calc_center()
+{
+    std::string ocam_param = getBaseName(__FILE__) + "/calib_results.txt";
+    struct ocam_model om; // our ocam_models for the fisheye and catadioptric cameras
+    get_ocam_model(&om, (char *)ocam_param.c_str());
+    double point3D[3] = {0, 0, 1.0};      // a sample 3D point
+    double center[2]; // the image point in pixel coordinates
+    world2cam(center, point3D, &om);
+    std::cout << center[1] << " " << center[0] << std::endl;
+    return {center[1], center[0]};
 }
